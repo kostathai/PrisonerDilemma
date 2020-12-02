@@ -108,10 +108,14 @@ void tournament(std::set<std::string>& names){
     std::map<std::string, int> score;
     for (const auto& i: names)
         score[i] = 0;
-    auto i_n1 = names.begin(), j_n2 = names.begin(), k_n3 = names.begin();
+    auto i_n1 = names.begin();
     int tour_count = 0;
     for(int i = 0; i < names.size(); ++i, ++i_n1){
+        auto j_n2 = i_n1;
+        j_n2++;
         for(int j = i + 1; j < names.size(); ++j, ++j_n2){
+            auto k_n3 = j_n2;
+            k_n3++;
             for(int k = j + 1; k < names.size(); ++k, ++k_n3){
                 std::cout<< "         TOUR #"<<++tour_count<< std::endl;
                 tour( *i_n1,*j_n2, *k_n3, score);
@@ -131,7 +135,7 @@ void tournament(std::set<std::string>& names){
             n = i.first;
         }
     }
-    std::cout << n << " TOTAL WIN" << std::endl;
+    std::cout << std::endl<< n << " TOTAL WIN" << std::endl;
 }
 
 template<typename T>
@@ -152,7 +156,7 @@ int main(int argc, char* argv[]) {
         if(argc >=7) {
             std::string s = convert<std::string>(argv[5]);
             if (s.find("--step=") != 0)
-                throw std::runtime_error("WRONG ARGUMENTS1");
+                throw std::runtime_error("WRONG ARGUMENTS");
             steps = convert<int>(argv[6]);
         }
 
