@@ -2,7 +2,7 @@
 #include <map>
 #include <vector>
 
-std::map<std::vector<char>, std::vector<int>> T {
+static const std::map<std::vector<char>, std::vector<int>> T {
         {{'D', 'D', 'D'}, {1, 1, 1}},
         {{'D', 'D', 'C'}, {5, 5, 0}},
         {{'D', 'C', 'D'}, {5, 0, 5}},
