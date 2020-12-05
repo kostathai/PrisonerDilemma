@@ -26,10 +26,27 @@ T convert(char* arg){
 
 //невероятно корявая обработка аргументов, нужно бы улучшить с помощью фабрики или map(?)
 int main(int argc, char* argv[]) {
+/*
+    std::map<std::string, void(*)(std::set<std::string>)> mode;
+    mode["--mode=detailed"]= reinterpret_cast<void (*)(std::set<std::basic_string<char>, std::less<std::basic_string<char>>, std::allocator<std::basic_string<char>>>)>(detailed);
+
+
     if (argc < 4) return -1;
+    std::set<std::string> names;
+
+    if (argc < 4){
+        for(int i = 1; i < 4; i++){
+            names.emplace(argv[i]);
+        }
+        mode[argv[4]](names);
+    }*/
 
     if (argc == 4 or (argc >= 5 and convert<std::string>(argv[4]) == "--mode=detailed")) {
-        detailed(argv[1], argv[2], argv[3]);
+        std::set<std::string> names;
+        for(int i = 1; i < 4; i++){
+            names.emplace(argv[i]);
+        }
+        detailed(names);
     }else if(convert<std::string>(argv[4]) == "--mode=fast"){
         int steps = 1000;
         if(argc >=7) {
@@ -38,8 +55,10 @@ int main(int argc, char* argv[]) {
                 throw std::runtime_error("WRONG ARGUMENTS1");
             steps = convert<int>(argv[6]);
         }
-
-        fast(argv[1], argv[2], argv[3], steps);
+        std::set<std::string> names;
+        for(int i = 1; i < 4; i++)
+            names.emplace(argv[i]);
+        fast(names, steps);
     }
     else if(convert<std::string>(argv[argc - 1]) == "--mode=tournament" or
              convert<std::string>(argv[argc - 1]).find("--")){

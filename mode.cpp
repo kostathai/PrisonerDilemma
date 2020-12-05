@@ -3,7 +3,7 @@
 
 //один шаг от каждой стратегии, запись в исторю, вывод результатов для детализированной игры
 void OneGame(std::unique_ptr<Unit>& str1, std::unique_ptr<Unit>& str2, std::unique_ptr<Unit>& str3,
-             std::vector<std::vector<char>>& history, bool B = false , char* n1 = nullptr, char* n2 = nullptr, char* n3 = nullptr){
+             std::vector<std::vector<char>>& history, bool B = false ,  std::string& n1 = (std::string &) "",  std::string& n2= (std::string &) "",  std::string& n3= (std::string &) ""){
     std::vector<char> choice = {str1->choice(0, history), str2->choice(1, history), str3->choice(2, history)};
     history.push_back(choice);
     std::vector<int> res = T.at(choice);
@@ -21,7 +21,12 @@ void OneGame(std::unique_ptr<Unit>& str1, std::unique_ptr<Unit>& str2, std::uniq
 }
 
 
-void fast(char* n1, char* n2, char* n3, int N){
+void fast(std::set<std::string>& names, int N){
+    std::string n1, n2, n3;
+    auto n = names.begin();
+    n1 = *n;
+    n2 = *(++n);
+    n3 = *(++n);
     std::unique_ptr<Unit> str1(Factory<Unit, std::string, Unit *(*) ()>::getInstance()->
             makeUnit(n1));
     std::unique_ptr<Unit> str2(Factory<Unit, std::string, Unit *(*) ()>::getInstance()->
@@ -51,7 +56,12 @@ void fast(char* n1, char* n2, char* n3, int N){
 
 }
 
-void detailed(char* n1, char* n2, char* n3 ){
+void detailed(std::set<std::string>& names){
+    std::string n1, n2, n3;
+    auto n = names.begin();
+    n1 = *n;
+    n2 = *(++n);
+    n3 = *(++n);
     std::unique_ptr<Unit> str1(Factory<Unit, std::string, Unit *(*) ()>::getInstance()->
             makeUnit(n1));
     std::unique_ptr<Unit> str2(Factory<Unit, std::string, Unit *(*) ()>::getInstance()->

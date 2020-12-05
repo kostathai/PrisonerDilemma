@@ -7,11 +7,11 @@
 #include <memory>
 
 void OneGame(std::unique_ptr<Unit>& , std::unique_ptr<Unit>& , std::unique_ptr<Unit>& ,
-             std::vector<std::vector<char>>&, bool , char* , char* , char* );
+             std::vector<std::vector<char>>&, bool , std::string& , std::string& , std::string& );
 
-void fast(char* , char*, char*, int );
+void fast(std::set<std::string>&, int );
 
-void detailed(char* , char* , char* );
+void detailed(std::set<std::string>&);
 
 void tour(const std::string& ,const std::string& ,const std::string& , std::map<std::string, int>& );
 
