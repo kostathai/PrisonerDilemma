@@ -1,10 +1,12 @@
-#include "unit.h"
-#include <vector>
+#pragma once
+#include "strategy.h"
 #include <iostream>
+#include <vector>
 
-class Rand : public Unit {
+class Rand : public Strategy {
 public:
     char choice (int, std::vector<std::vector<char>>&) override;
+    std::string name() override;
 };
 
-Unit *createRand ();
+Strategy *createRand ();

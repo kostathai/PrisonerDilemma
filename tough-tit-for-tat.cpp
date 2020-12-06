@@ -4,19 +4,23 @@
 
 namespace {
     bool g(){
-        Factory<Unit, std::string, Unit*(*)()>::getInstance()->addCreator("tough-tit-for-tat", createTTTT);
+        Factory<Strategy, std::string, Strategy*(*)()>::getInstance()->addCreator("tough-tit-for-tat", createTTFT);
         return true;
     }
     static bool b = g();
 }
 
-Unit* createTTTT(){
-    return new TTTT;
+Strategy* createTTFT(){
+    return new TTFT;
 }
 
-char TTTT::choice(int i, std::vector<std::vector<char>>& h){
-    int s = h.size();
-    if((h[s-1][0] == 'C' or i == 0) and (h[s-1][1] == 'C' or i == 1) and (h[s-1][2] == 'C' or i == 2))
+char TTFT::choice(int str_num, std::vector<std::vector<char>>& history){
+    int s = history.size();
+    if((history[s-1][0] == 'C' or str_num == 0) and (history[s-1][1] == 'C' or str_num == 1) and (history[s-1][2] == 'C' or str_num == 2))
         return 'C';
     return 'D';
+}
+
+std::string TTFT::name(){
+    return "tough-tit-for-tat";
 }

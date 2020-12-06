@@ -3,10 +3,10 @@
 #include <iostream>
 #include <vector>
 
-class PTF : public Strategy {
+class CChoice : public Strategy {
 public:
     char choice (int, std::vector<std::vector<char>>&) override;
     std::string name() override;
 };
 
-Strategy *createPTF ();
+Strategy *createCChoice ();

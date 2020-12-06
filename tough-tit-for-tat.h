@@ -1,10 +1,11 @@
-#include "unit.h"
-#include <vector>
+#include "strategy.h"
 #include <iostream>
+#include <vector>
 
-class TTTT : public Unit {
+class TTFT : public Strategy {
 public:
     char choice (int,std::vector<std::vector<char>>&) override;
+    std::string name() override;
 };
 
-Unit *createTTTT ();
+Strategy *createTTFT ();

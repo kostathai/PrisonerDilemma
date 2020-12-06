@@ -1,10 +1,12 @@
-#include "unit.h"
-#include <vector>
+#pragma once
+#include "strategy.h"
 #include <iostream>
+#include <vector>
 
-class STTT : public Unit {
+class STFT : public Strategy {
 public:
     char choice (int,std::vector<std::vector<char>>&) override;
+    std::string name() override;
 };
 
-Unit *createSTTT ();
+Strategy *createSTFT ();
