@@ -1,6 +1,10 @@
-#include "mode.h"
+#include "detailed_mode.h"
+#include "fast_mode.h"
+#include "tournament_mode.h"
 #include <sstream>
+#include "table.h"
 
+typedef  std::map<std::vector<char>, std::vector<int>> MATRIX_;
 template<typename T>
 T convert_(char* arg){
     std::stringstream convert(arg);
@@ -9,53 +13,51 @@ T convert_(char* arg){
     return n;
 }
 
+struct Mode{
+    std::string mode = "detailed";
+    int step = 1000;
+    std::string matrix_dir;
+    MATRIX_ matrix;
+};
 
-/*
-...................Реализованные варианты запуска программы.........................
- \PrisonerDilemma.exe tough-tit-for-tat random poor-trusting-fool all-defect
- \PrisonerDilemma.exe tough-tit-for-tat random poor-trusting-fool all-defect --mode=tournament
- \PrisonerDilemma.exe tough-tit-for-tat random poor-trusting-fool
- \PrisonerDilemma.exe tough-tit-for-tat random poor-trusting-fool --mode=detailed
- \PrisonerDilemma.exe tough-tit-for-tat random poor-trusting-fool --mode=fast
- \PrisonerDilemma.exe tough-tit-for-tat random poor-trusting-fool --mode=fast --step= 2000
-...................................Стратегии..........................................
- poor-trusting-fool
- all-defect
- random
- soft-tit-for-tat
- tough-tit-for-tat
- .....................................................................................*/
-
-
-//невероятно корявая обработка аргументов, нужно бы улучшить с помощью фабрики или map(?)
 int main(int argc, char* argv[]) {
-
-    if (argc == 4 or (argc >= 5 and convert_<std::string>(argv[4]) == "--mode=detailed")) {
-        std::set<std::string> names;
-        for(int i = 1; i < 4; i++){
-            names.emplace(argv[i]);
+    if (argc < 4)
+        return -1;
+    std::set<std::string> names;
+    Mode m;
+    for(int i = 1 ; i < argc; ++i){
+        auto arg = convert_<std::string>(argv[i]);
+        if(arg.find("--") != 0) {
+            names.insert(arg);
+            if (i == 4)
+                m.mode = "tournament";
         }
-        detailed(names);
-    }else if(convert_<std::string>(argv[4]) == "--mode=fast"){
-        int steps = 1000;
-        if(argc >=7) {
-            std::string s = convert_<std::string>(argv[5]);
-            if (s.find("--step=") != 0)
-                throw std::runtime_error("WRONG ARGUMENTS1");
-            steps = convert_<int>(argv[6]);
+        else{
+            auto pos = arg.find('=');
+            if (pos != std::string::npos) {
+                std::string arg1 = arg.substr(2, pos-2);
+                std::string arg2 = arg.substr(pos + 1);
+                if (arg1 == "mode")
+                    m.mode = arg2;
+                else if (arg1 == "step")
+                    m.step = std::stoi(arg2);
+                else if (arg1 == "configs"){
+                    //do something
+                }
+                else if(arg1 == "matrix"){
+                    m.matrix_dir = arg2;
+                }
+                else throw std::runtime_error("WRONG ARGUMENTS: " + arg);
+            }
+            else throw std::runtime_error("WRONG ARGUMENTS: " + arg);
         }
-        std::set<std::string> names;
-        for(int i = 1; i < 4; i++)
-            names.emplace(argv[i]);
-        fast(names, steps);
     }
-    else if(convert_<std::string>(argv[argc - 1]) == "--mode=tournament" or
-            convert_<std::string>(argv[argc - 1]).find("--")){
-        std::set<std::string> names;
-        for(int i = 1; i < argc and convert_<std::string>(argv[i]).find("--"); i++){
-            names.emplace(argv[i]);
-        }
-        tournament(names);
-    }else throw std::runtime_error("WRONG ARGUMENTS2");
+    m.matrix = CreateMatrix(m.matrix_dir);
+    if(m.mode == "detailed")
+        detailed(m.matrix, names);
+    else if (m.mode == "fast")
+        fast(m.matrix, names, m.step);
+    else if(m.mode == "tournament")
+        tournament(m.matrix, names, m.step);
 
 }

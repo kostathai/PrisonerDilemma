@@ -7,7 +7,7 @@
 template<class Product, class id>
 struct DefaultErrorPolicy {
     static Product *IdNotFound(const id &name) {
-        throw std::runtime_error("! ! ! WRONG ARGUMENTS ! ! !");
+        throw std::runtime_error("! ! ! WRONG ARGUMENTS ! ! !\n"+ name);
     }
 };
 
