@@ -1,13 +1,22 @@
 #include "fast_mode.h"
-#include "mode.h"
-#include <iomanip>
+#include "factory.h"
 
-void fast(const MATRIX_& T,std::set<std::string> &names, int N) {
-    std::vector<StrategyPtr> str = Initial(names);
-    std::vector<std::vector<char>> history;
-    history.push_back({'C', 'C', 'C'});
-    for (int i = 0; i < N; ++i)
-        OneGame(T, str, history);
-    PrintGameRes(str);
+namespace {
+    bool gen() {
+        Factory<PlayMode, std::string, PlayMode *(*) ()>::getInstance()->addCreator("fast", createFastMode);
+        return true;
+    }
+    static bool d = gen();
 }
 
+PlayMode *createFastMode() {
+    return new Fast;
+}
+
+void Fast::play(MATRIX_ &M, std::set<std::string> &names, int N) {
+    T = M;
+    Initial(names);
+    for (int i = 0; i < N; ++i)
+        OneGame();
+    PrintRes();
+}

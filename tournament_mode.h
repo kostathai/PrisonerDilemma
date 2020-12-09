@@ -1,9 +1,18 @@
+#pragma once
+#include "mode.h"
+#include <map>
 #include <set>
 #include <string>
-#include <map>
 #include <vector>
-
 typedef std::map<std::vector<char>, std::vector<int>> MATRIX_;
 
-void tournament(const MATRIX_ &T, std::set<std::string> &names, int N);
-void tour(const MATRIX_ &T, std::set<std::string> &names, std::map<std::string, int> &score, int N);
+
+class Tournament : public PlayMode {
+    void play(MATRIX_ &M, std::set<std::string> &names, int N) override;
+    void PrintTournamentRes();
+    void tour(std::set<std::string> &names, int N);
+    std::map<std::string, int> score;
+    void UpdateScore();
+};
+
+PlayMode *createTournamentMode();

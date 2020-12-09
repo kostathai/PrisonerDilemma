@@ -1,8 +1,10 @@
 #include "detailed_mode.h"
-#include "fast_mode.h"
-#include "tournament_mode.h"
+//#include "fast_mode.h"
+//#include "tournament_mode.h"
 #include <sstream>
 #include "table.h"
+#include "factory.h"
+
 
 typedef  std::map<std::vector<char>, std::vector<int>> MATRIX_;
 template<typename T>
@@ -53,11 +55,9 @@ int main(int argc, char* argv[]) {
         }
     }
     m.matrix = CreateMatrix(m.matrix_dir);
-    if(m.mode == "detailed")
-        detailed(m.matrix, names);
-    else if (m.mode == "fast")
-        fast(m.matrix, names, m.step);
-    else if(m.mode == "tournament")
-        tournament(m.matrix, names, m.step);
+
+    std::shared_ptr<PlayMode> game(Factory<PlayMode, std::string,
+                                           PlayMode *(*) ()>::getInstance()->makeObject(m.mode));
+    game->play(m.matrix, names, m.step);
 
 }

@@ -1,20 +1,22 @@
 #pragma once
 #include "strategy.h"
-#include <unordered_map>
 #include <iostream>
+#include <unordered_map>
 
 
 template<class Product, class id>
 struct DefaultErrorPolicy {
     static Product *IdNotFound(const id &name) {
-        throw std::runtime_error("! ! ! WRONG ARGUMENTS ! ! !\n"+ name);
+        throw std::runtime_error("! ! ! WRONG ARGUMENTS ! ! !\n" + name);
     }
 };
 
 template<class Product, class id, typename Creator, class ErrorPolicy = DefaultErrorPolicy<Product, id>>
 class Factory {
+    typedef Product *(*creator_t)();
+
 public:
-    Product *makeStrategy(const id &name) {
+    Product *makeObject(const id &name) {
         auto it = creators_.find(name);
         if (it == creators_.end()) {
             return ErrorPolicy::IdNotFound(name);

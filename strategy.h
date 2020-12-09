@@ -10,4 +10,3 @@ public:
     int score = 0;
     virtual std::string name() = 0;
 };
-typedef Strategy* (*creator_t)();
