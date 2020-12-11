@@ -1,7 +1,7 @@
 #include "change-choice.h"
 #include "factory.h"
 #include <iostream>
-
+#include <fstream>
 
 
 namespace {
@@ -17,11 +17,18 @@ Strategy* createCChoice(){
 }
 
 char CChoice::choice(int str_num, std::vector<std::vector<char>>& history){
-    if((history.size() / 10) % 2 != 0)
+    if (((history.size() - 1 )/ cchoice_number) % 2 != 0)
         return 'D';
     return 'C';
 }
 
 std::string CChoice::name(){
     return "change-choice";
+}
+void CChoice::GetInformation(std::string & dir) {
+    std::ifstream in(dir+"change-choice.txt");
+    if(in.is_open()) {
+        in >> cchoice_number;
+    }
+    else throw std::runtime_error("FILE change-choice.txt NOT FOUND IN DIRECTORY "+ dir);
 }

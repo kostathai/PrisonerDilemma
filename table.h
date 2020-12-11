@@ -3,11 +3,11 @@
 #include <map>
 #include <vector>
 
-typedef  std::map<std::vector<char>, std::vector<int>> MATRIX_;
+typedef std::map<std::vector<char>, std::vector<int>> MATRIX_;
 
-static MATRIX_ CreateMatrix(const std::string& filename){
+static MATRIX_ CreateMatrix(const std::string &filename) {
     MATRIX_ T;
-    if(filename.empty()){
+    if (filename.empty()) {
         T[{'D', 'D', 'D'}] = {1, 1, 1};
         T[{'D', 'D', 'C'}] = {5, 5, 0};
         T[{'D', 'C', 'D'}] = {5, 0, 5};
@@ -19,7 +19,7 @@ static MATRIX_ CreateMatrix(const std::string& filename){
         return T;
     }
     std::ifstream in(filename);
-    if(in.is_open()) {
+    if (in.is_open()) {
         int a, b, c;
         in >> a >> b >> c;
         T[{'D', 'D', 'D'}] = {a, b, c};
@@ -37,7 +37,7 @@ static MATRIX_ CreateMatrix(const std::string& filename){
         T[{'C', 'C', 'D'}] = {a, b, c};
         in >> a >> b >> c;
         T[{'C', 'C', 'C'}] = {a, b, c};
-    }else throw std::runtime_error("file with matrix not found :(");
+    } else
+        throw std::runtime_error("file with matrix not found :(");
     return T;
 }
-

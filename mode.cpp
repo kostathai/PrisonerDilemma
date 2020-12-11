@@ -16,7 +16,7 @@ void PlayMode::OneGame(bool detailed) {
     if (detailed)
         PrintRes(choice, res);
 }
-void PlayMode::Initial(std::set<std::string> &names) {
+void PlayMode::Initial(std::set<std::string> &names, std::string &configs) {
     std::string n1, n2, n3;
     auto n = names.begin();
     n1 = *n;
@@ -26,6 +26,8 @@ void PlayMode::Initial(std::set<std::string> &names) {
     StrategyPtr str2(Factory<Strategy, std::string, Strategy *(*) ()>::getInstance()->makeObject(n2));
     StrategyPtr str3(Factory<Strategy, std::string, Strategy *(*) ()>::getInstance()->makeObject(n3));
     str = {str1, str2, str3};
+    for (const auto &i : str)
+        i->GetInformation(configs);
 }
 
 void PlayMode::PrintRes(const std::vector<char> &choice, const std::vector<int> &res) {

@@ -9,20 +9,18 @@ namespace {
         return true;
     }
     static bool d = gen();
-}
+}// namespace
 
 PlayMode *createDetailedMode() {
     return new Detailed;
 }
 
-void Detailed::play(MATRIX_ &M, std::set<std::string> &names, int N) {
+void Detailed::play(MATRIX_ &M, std::set<std::string> &names, int N, std::string configs) {
     T = M;
-    Initial(names);
-    while (true) {
+    Initial(names, configs);
+    while (!gamer.Exit(steps_counter)) {
+        steps_counter++;
         OneGame(true);
-        char c = getch();
-        if (c == 'q')
-            return;
     }
 }
 void Detailed::PrintRes(const std::vector<char> &choice, const std::vector<int> &res) {
@@ -32,4 +30,15 @@ void Detailed::PrintRes(const std::vector<char> &choice, const std::vector<int> 
         std::cout << std::setw(20) << std::left << str[i]->name() << std::setw(8)
                   << choice[i] << std::setw(8) << res[i] << std::setw(10) << str[i]->score << std::endl;
     std::cout << "Press any key to continue or 'q' to exit:" << std::endl;
+}
+bool Detailed::Gamer::Exit(const int &count) {
+    if (Test) {
+        return (Button[count] == 'q');
+    }
+    if (count == 0)
+        return false;
+    int c = getch();
+    if (c == 'q')
+        return true;
+    return false;
 }

@@ -5,8 +5,8 @@
 
 class Rand : public Strategy {
 public:
-    char choice (int, std::vector<std::vector<char>>&) override;
+    char choice(int, std::vector<std::vector<char>> &) override;
     std::string name() override;
 };
 
-Strategy *createRand ();
+Strategy *createRand();
