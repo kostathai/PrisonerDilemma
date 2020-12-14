@@ -14,7 +14,7 @@ PlayMode *createTournamentMode() {
     return new Tournament;
 }
 
-void Tournament::play(MATRIX_ &M, std::set<std::string> &names, int N, std::string configs) {
+void Tournament::play(MATRIX_ &M, std::set<std::string> &names, int N, std::string configs, Gamer gamer) {
     T = M;
     for (const auto &i : names)
         score[i] = 0;

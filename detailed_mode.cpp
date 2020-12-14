@@ -1,6 +1,5 @@
 #include "detailed_mode.h"
 #include "factory.h"
-#include <conio.h>
 #include <iomanip>
 
 namespace {
@@ -15,7 +14,7 @@ PlayMode *createDetailedMode() {
     return new Detailed;
 }
 
-void Detailed::play(MATRIX_ &M, std::set<std::string> &names, int N, std::string configs) {
+void Detailed::play(MATRIX_ &M, std::set<std::string> &names, int N, std::string configs, Gamer gamer) {
     T = M;
     Initial(names, configs);
     while (!gamer.Exit(steps_counter)) {
@@ -31,14 +30,4 @@ void Detailed::PrintRes(const std::vector<char> &choice, const std::vector<int> 
                   << choice[i] << std::setw(8) << res[i] << std::setw(10) << str[i]->score << std::endl;
     std::cout << "Press any key to continue or 'q' to exit:" << std::endl;
 }
-bool Detailed::Gamer::Exit(const int &count) {
-    if (Test) {
-        return (Button[count] == 'q');
-    }
-    if (count == 0)
-        return false;
-    int c = getch();
-    if (c == 'q')
-        return true;
-    return false;
-}
+

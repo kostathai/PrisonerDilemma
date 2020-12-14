@@ -11,7 +11,7 @@ class Detailed : public PlayMode {
     void PrintRes(const std::vector<char> &choice, const std::vector<int> &res) override;
 
 public:
-    void play(MATRIX_ &M, std::set<std::string> &names, int N, std::string configs) override;
+    void play(MATRIX_ &M, std::set<std::string> &names, int N, std::string configs, Gamer gamer) override;
 };
 
 PlayMode *createDetailedMode();

@@ -13,7 +13,7 @@ PlayMode *createFastMode() {
     return new Fast;
 }
 
-void Fast::play(MATRIX_ &M, std::set<std::string> &names, int N, std::string configs) {
+void Fast::play(MATRIX_ &M, std::set<std::string> &names, int N, std::string configs, Gamer gamer) {
     T = M;
     Initial(names, configs);
     for (int i = 0; i < N; ++i)
