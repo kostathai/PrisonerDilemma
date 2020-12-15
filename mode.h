@@ -14,15 +14,18 @@ typedef std::shared_ptr<Strategy> StrategyPtr;
 
 class PlayMode {
 public:
-    virtual void play(MATRIX_ &M, std::set<std::string> &names, int N, std::string configs, Gamer gamer = {}) = 0;
-    int steps_counter = 0;
-protected:
-
+    virtual void play( Gamer gamer = {}) = 0;
+    void InitialGame(const std::string& matr_conf, const int& steps, const std::set<std::string> &names, const std::string& str_conf);
+    protected:
+    std::vector<int> score;
+    std::set<std::string> names_;
+    std::string configs;
+    int steps = 1000;
     std::vector<std::vector<char>> history = {{'C', 'C', 'C'}};
-    void Initial(std::set<std::string> &names, std::string &configs);
+    void Initial(const std::set<std::string> &names,const std::string &configs);
     void OneGame(bool detailed = false);
     virtual void PrintRes(const std::vector<char> &choice = {}, const std::vector<int> &res = {});
-    MATRIX_ T;
+    MATRIX_ matrix;
     std::vector<StrategyPtr> str;
 
 

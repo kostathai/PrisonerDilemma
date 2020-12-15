@@ -14,7 +14,7 @@ Strategy* createAllD(){
     return new AllD;
 }
 
-char AllD::choice(int, std::vector<std::vector<char>>&){
+char AllD::choice(std::vector<std::vector<char>>&){
     return 'D';
 }
 

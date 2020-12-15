@@ -1,10 +1,7 @@
 #include <sstream>
 #include "gameplay_creator.h"
 #include <map>
-#include <set>
-#include "table.h"
 #include "factory.h"
-#include "mode.h"
 #include <memory>
 
 template<typename T>
@@ -15,46 +12,55 @@ T convert_(char *arg) {
     return n;
 }
 
-Mode creator(int argc, char *argv[]){
-    if (argc < 4)
+std::unique_ptr<PlayMode> Mode::creator(){
+    std::unique_ptr<PlayMode> game(Factory<PlayMode, std::string,
+            PlayMode *(*) ()>::getInstance()
+                                           ->makeObject(mode));
+    game->InitialGame(matrix_dir, step,  names, configs_dir);
+    return game;
+}
+void Mode::treatment_arg(int argc, char *argv[]) {
+    if (argc < 4) {
         throw std::runtime_error("NOT ENOUGH ARGUMENTS");
-    Mode m;
+    }
     for (int i = 1; i < argc; ++i) {
         auto arg = convert_<std::string>(argv[i]);
         if (arg.find("--") != 0) {
-            m.names.insert(arg);
-            if (m.names.size() == 4)
-                m.mode = "tournament";
+            names.insert(arg);
+            if (names.size() == 4) {
+                mode = "tournament";
+            }
         } else {
-            if (m.names.size() < 3)
+            if (names.size() < 3) {
                 throw std::runtime_error("INVALID NUMBER OF STRATEGY NAMES");
+            }
             auto pos = arg.find('=');
             if (pos != std::string::npos) {
                 std::string arg1 = arg.substr(2, pos - 2);
                 std::string arg2 = arg.substr(pos + 1);
-                if (arg1 == "mode")
-                    m.mode = arg2;
-                else if (arg1 == "step")
-                    m.step = std::stoi(arg2);
-                else if (arg1 == "configs") {
-                    m.configs_dir = arg2;
+                if (arg1 == "mode") {
+                    mode = arg2;
+                } else if (arg1 == "step") {
+                    step = std::stoi(arg2);
+                } else if (arg1 == "configs") {
+                    configs_dir = arg2;
                 } else if (arg1 == "matrix") {
-                    m.matrix_dir = arg2;
-                } else
+                    matrix_dir = arg2;
+                } else {
                     throw std::runtime_error("WRONG ARGUMENTS: " + arg);
-            } else
+                }
+            } else {
                 throw std::runtime_error("WRONG ARGUMENTS: " + arg);
+            }
         }
     }
-    if (m.names.size() < 3)
+    if (names.size() < 3) {
         throw std::runtime_error("INVALID NUMBER OF STRATEGY NAMES");
-    if (m.mode == "detailed" and m.names.size() > 3)
+    }
+    if (mode == "detailed" and names.size() > 3) {
         throw std::runtime_error("DETAILED MOD IS POSSIBLE ONLY FOR THREE PLAYERS");
-
-    m.matrix = CreateMatrix(m.matrix_dir);
-    std::shared_ptr<PlayMode> game(Factory<PlayMode, std::string,
-            PlayMode *(*) ()>::getInstance()
-                                           ->makeObject(m.mode));
-    m.game = game;
-    return m;
+    }
+}
+Mode::Mode(int argc, char **argv) {
+    treatment_arg(argc, argv);
 }

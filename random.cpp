@@ -15,7 +15,7 @@ Strategy *createRand() {
     return new Rand;
 }
 
-char Rand::choice(int, std::vector<std::vector<char>> &) {
+char Rand::choice(std::vector<std::vector<char>> &) {
     if (rand() % 2 == 1)
         return 'D';
     return 'C';

@@ -2,6 +2,9 @@
 #include "factory.h"
 
 namespace {
+    PlayMode *createFastMode() {
+        return new Fast;
+    }
     bool gen() {
         Factory<PlayMode, std::string, PlayMode *(*) ()>::getInstance()->addCreator("fast", createFastMode);
         return true;
@@ -9,14 +12,11 @@ namespace {
     static bool d = gen();
 }// namespace
 
-PlayMode *createFastMode() {
-    return new Fast;
-}
 
-void Fast::play(MATRIX_ &M, std::set<std::string> &names, int N, std::string configs, Gamer gamer) {
-    T = M;
-    Initial(names, configs);
-    for (int i = 0; i < N; ++i)
+void Fast::play(Gamer gamer) {
+    Initial(names_, configs);
+    for (int i = 0; i < steps; ++i) {
         OneGame();
+    }
     PrintRes();
 }

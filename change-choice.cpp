@@ -16,7 +16,7 @@ Strategy* createCChoice(){
     return new CChoice;
 }
 
-char CChoice::choice(int str_num, std::vector<std::vector<char>>& history){
+char CChoice::choice( std::vector<std::vector<char>>& history){
     if (((history.size() - 1 )/ cchoice_number) % 2 != 0)
         return 'D';
     return 'C';
@@ -25,7 +25,7 @@ char CChoice::choice(int str_num, std::vector<std::vector<char>>& history){
 std::string CChoice::name(){
     return "change-choice";
 }
-void CChoice::GetInformation(std::string & dir) {
+void CChoice::GetInformation(const std::string & dir) {
     std::ifstream in(dir+"change-choice.txt");
     if(in.is_open()) {
         in >> cchoice_number;

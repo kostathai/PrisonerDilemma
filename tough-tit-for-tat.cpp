@@ -14,9 +14,9 @@ Strategy *createTTFT() {
     return new TTFT;
 }
 
-char TTFT::choice(int str_num, std::vector<std::vector<char>> &history) {
+char TTFT::choice(std::vector<std::vector<char>> &history) {
     int s = history.size();
-    if ((history[s - 1][0] == 'C' or str_num == 0) and (history[s - 1][1] == 'C' or str_num == 1) and (history[s - 1][2] == 'C' or str_num == 2))
+    if ((history[s - 1][0] == 'C' or number_in_history == 0) and (history[s - 1][1] == 'C' or number_in_history  == 1) and (history[s - 1][2] == 'C' or number_in_history == 2))
         return 'C';
     return 'D';
 }
